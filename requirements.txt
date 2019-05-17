@@ -1,0 +1,7 @@
+Keras == 2.2.4
+Pillow == 5.2.0
+dlib == 19.17.0
+imutils == 0.5.2
+numpy == 1.15.0
+opencv_python == 3.4.2.17
+scipy == 1.1.0
