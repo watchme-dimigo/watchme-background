@@ -1,4 +1,3 @@
-
 from pupil_tracker import preprocess, predict
 from closed_eye.eye import *
 from closed_eye.utils import *
@@ -21,8 +20,8 @@ def main(debug=False):
         './models/haarcascade_eye.xml'
     )
 
-    (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
-    (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
+    (left_start, left_end) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
+    (right_start, right_end) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
     vs = VideoStream(src=0, resolution=(1280, 960)).start()
     fileStream = False
@@ -68,11 +67,11 @@ def main(debug=False):
 
             shape = get_shape(predictor, gray, face)
 
-            left_eye_shape = get_eye_shape(shape, lStart, lEnd)
-            leftEAR = get_ear(left_eye_shape)
+            left_eye_shape = get_eye_shape(shape, left_start, left_end)
+            left_ear = get_ear(left_eye_shape)
 
-            right_eye_shape = get_eye_shape(shape, rStart, rEnd)
-            rightEAR = get_ear(right_eye_shape)
+            right_eye_shape = get_eye_shape(shape, right_start, right_end)
+            right_ear = get_ear(right_eye_shape)
 
             if debug:  # 디버그 모드에서 발견된 결과 표시
                 draw_dlib_rect(frame, face)
@@ -102,7 +101,7 @@ def main(debug=False):
                     frame = put_korean(frame, result, pos, fontSacle=30, color='RED')
 
             print(json.dumps({
-                'closed': eye_closed(leftEAR, rightEAR, ear_thresh, debug),
+                'closed': eye_closed(left_ear, right_ear, ear_thresh, debug),
                 'stare': result
             }))
 
