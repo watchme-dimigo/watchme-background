@@ -81,24 +81,27 @@ def main(debug=False):
             eyes = eye_cascade.detectMultiScale(face_from_dlib_rect(gray, face))
             # print(eyes)
 
-            for eye in eyes:
+            result = -1
+            if len(eyes):
+                eye = eyes[0] # 
                 (x, y, w, h) = eye
                 eye = gray[y:y+h, x:x+w]
 
                 eye = preprocess.apply_threshold(eye)
 
                 percentage, result = predict.prediction(eye)
+                result = int(result) # int64 to int
                 # print(percentage)
 
                 if debug:
-                    pos = {
-                        'top_left': (0, 0),
-                        'top_right': (800, 0),
-                        'normal': (800, 300),
-                        'bottom_left': (0, 500),
-                        'bottom_right': (800, 500)
-                    }[result]
-                    frame = put_korean(frame, result, pos, fontSacle=30, color='RED')
+                    pos, label = [
+                        [(0, 0), 'top_left'],
+                        [(800, 0), 'top_right'],
+                        [(800, 300), 'normal'],
+                        [(0, 500), 'bottom_left'],
+                        [(800, 500), 'bottom_right']
+                    ][result]
+                    frame = put_korean(frame, label, pos, fontSacle=30, color='RED')
 
             print(json.dumps({
                 'closed': eye_closed(left_ear, right_ear, ear_thresh, debug),
