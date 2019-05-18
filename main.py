@@ -75,8 +75,8 @@ def main(debug=False):
 
             if debug:  # 디버그 모드에서 발견된 결과 표시
                 draw_dlib_rect(frame, face)
-                draw_contours(frame, left_eye_shape)
-                draw_contours(frame, right_eye_shape)
+                # draw_contours(frame, left_eye_shape)
+                # draw_contours(frame, right_eye_shape)
 
             eyes = eye_cascade.detectMultiScale(face_from_dlib_rect(gray, face))
             # print(eyes)
@@ -97,9 +97,9 @@ def main(debug=False):
                     pos, label = [
                         [(0, 0), 'top_left'],
                         [(800, 0), 'top_right'],
-                        [(800, 300), 'normal'],
+                        [(500, 300), 'normal'],
                         [(0, 500), 'bottom_left'],
-                        [(800, 500), 'bottom_right']
+                        [(750, 500), 'bottom_right']
                     ][result]
                     frame = put_korean(frame, label, pos, fontSacle=30, color='RED')
 

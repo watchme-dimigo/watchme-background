@@ -1,6 +1,8 @@
 .DS_Store
 .vscode/
+
 test.png
+model-old.h5
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
