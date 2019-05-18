@@ -10,7 +10,7 @@ import imutils
 import dlib
 
 def main(debug=False):
-    from pupil_tracker import preprocess, predict
+    from pupil_tracker import preprocess, predict, classes
 
     # 커스터마이제이션 설정이 있는 파일을 열어 ear_thresh 값(eye aspect ratio에 대한 임계값)을 가져옴
     ear_thresh = load_ear_thresh(debug)
@@ -95,22 +95,24 @@ def main(debug=False):
 
                 # cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0),2)
                 eye = face_arr[y:y+h, x:x+w]
-                cv2.imshow("eye", eye)
 
                 eye = preprocess.apply_threshold(eye)
 
                 percentage, result = predict.prediction(eye)
                 result = int(result) # int64 to int
-                # print(percentage)
 
                 if debug:
-                    pos, label = [
-                        [(0, 0), 'top_left'],
-                        [(800, 0), 'top_right'],
-                        [(500, 300), 'normal'],
-                        [(0, 500), 'bottom_left'],
-                        [(750, 500), 'bottom_right']
-                    ][result]
+                    print(list(percentage))
+                    # pos, label = [
+                    #     [(0, 0), 'bottom_left'],
+                    #     [(800, 0), 'bottom_right'],
+                    #     [(500, 300), 'normal'],
+                    #     [(0, 500), 'top_left'],
+                    #     [(750, 500), 'top_right']
+                    # ][result]
+                    pos = (0, 0)
+                    label = classes[result]
+                    print(label)
                     frame = put_korean(frame, label, pos, fontSacle=30, color='RED')
                 break
 

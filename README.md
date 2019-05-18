@@ -36,7 +36,7 @@ Main C# 애플리케이션에서 background process로 실행되는 Python 스�
 
 이걸 이용해서 일정 오프셋 동안 눈이 감겨 있으면 뭘 처리하는 식으로도 할 수 있어요.
 
-- `stare`: 사용자가 보는 위치 
+- `stare`: 사용자가 보는 화면의 위치 
   - `0`이면 **왼쪽 아래**(bottom_left)
   - `1`이면 **오른쪽 아래**(bottom_right)
   - `2`이면 **중앙**(normal)
