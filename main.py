@@ -1,6 +1,6 @@
-from pupil_tracker import preprocess, predict
 from closed_eye.eye import *
 from closed_eye.utils import *
+from customize.main import customization
 
 import sys
 import json
@@ -10,6 +10,8 @@ import imutils
 import dlib
 
 def main(debug=False):
+    from pupil_tracker import preprocess, predict
+
     # 커스터마이제이션 설정이 있는 파일을 열어 ear_thresh 값(eye aspect ratio에 대한 임계값)을 가져옴
     ear_thresh = load_ear_thresh(debug)
 
@@ -133,4 +135,8 @@ if __name__ == '__main__':
         debug = int(sys.argv[1])
     except:
         debug = False
-    main(debug)
+
+    if debug == 2:
+        customization()
+    else:
+        main(debug)
