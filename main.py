@@ -80,14 +80,22 @@ def main(debug=False):
                 # draw_contours(frame, left_eye_shape)
                 # draw_contours(frame, right_eye_shape)
 
-            eyes = eye_cascade.detectMultiScale(face_from_dlib_rect(gray, face))
-            # print(eyes)
+            # (x, y, w, h) = face_from_dlib_rect(gray, face)
+            # cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0),2)
+            face_arr = face_from_dlib_rect(gray, face)
+            eyes = eye_cascade.detectMultiScale(face_arr)
+            face_height = np.size(face_arr, 0)
 
             result = -1
-            if len(eyes):
-                eye = eyes[0] # 
+            for eye in eyes:
                 (x, y, w, h) = eye
-                eye = gray[y:y+h, x:x+w]
+
+                if y + h > face_height * 1 / 2: # 콧구멍 x
+                    continue
+
+                # cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0),2)
+                eye = face_arr[y:y+h, x:x+w]
+                cv2.imshow("eye", eye)
 
                 eye = preprocess.apply_threshold(eye)
 
@@ -104,6 +112,7 @@ def main(debug=False):
                         [(750, 500), 'bottom_right']
                     ][result]
                     frame = put_korean(frame, label, pos, fontSacle=30, color='RED')
+                break
 
             print(json.dumps({
                 'closed': eye_closed(left_ear, right_ear, ear_thresh, debug),
